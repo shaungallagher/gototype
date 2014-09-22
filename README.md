@@ -1,7 +1,7 @@
-brototype
+gototype
 =========
 
-Bro, do you even write javascript?
+Gototype is a less bro-joke-infused version of [Brototype](https://github.com/letsgetrandy/brototype)
 
 ## Features
 
@@ -24,7 +24,7 @@ We all hate that, don't we?
 So what if you could just type:
 ```
 var myURL;
-if (Bro(app).doYouEven('config.environment.buildURL')) {
+if (Go(app).exists('config.environment.buildURL')) {
     myURL = app.config.environment.buildURL('dev');
 }
 ```
@@ -32,9 +32,9 @@ if (Bro(app).doYouEven('config.environment.buildURL')) {
 Or better yet, how about:
 ```
 var myURL;
-Bro(app)
-    .iDontAlways('config.environment.buildURL')
-    .butWhenIdo(function(val){
+Go(app)
+    .if('config.environment.buildURL')
+    .then(function(val){
         myURL = val;
     });
 ```
@@ -45,35 +45,35 @@ Well, now you can!
 
 ### Testing nested members
 ```
-if(Bro(object).doYouEven('lift')) {}
+if(Go(object).exists('lift')) {}
 ```
 Or, just use a callback...
 ```
-Bro(object)
-    .doYouEven('property.subproperty', function(subproperty) {
+Go(object)
+    .exists('property.subproperty', function(subproperty) {
         console.log(subproperty);
     });
 ```
 
 ### Fetching nested members
 ```
-var value = Bro(object).iCanHaz('cheezeburger');
+var value = Go(object).get('cheezeburger');
 ```
 
 ### Calling nested functions
 ```
-Bro(object)
-    .iDontAlways('method')
-    .butWhenIdo(function(returnVal) {
+Go(object)
+    .if('method')
+    .then(function(returnVal) {
         ...
     });
 ```
 
 ### Handling exceptions
 ```
-Bro(object)
-    .braceYourself('method.name')
-    .hereComeTheErrors(function(e) {
+Go(object)
+    .if('method.name')
+    .except(function(e) {
         console.log('error ' + e + ' happened.');
     });
 ```
@@ -82,17 +82,16 @@ Bro(object)
 ```
 var obj1 = {foo: 'boo', bar: 'bar'},
     obj2 = {foo: 'bar', yes: 'no'};
-Bro(obj1).comeAtMe(obj2);
+Go(obj1).extend(obj2);
 
 // now obj1.foo == 'bar' and obj1.yes == 'no'
 ```
 
-### Extending Brototype!
-Yes, extend me, Bro!
+### Extending Gototype!
 
 ```
 var plugin = { foo: function() { whatever; }};
-Bro.prototype.comeAtMe(plugin);
+Go.prototype.extend(plugin);
 ```
 
 
@@ -100,9 +99,6 @@ Bro.prototype.comeAtMe(plugin);
 
 `npm test` to run tests.
 
-## Author
-
-Randy Hunt
 
 ## License
 

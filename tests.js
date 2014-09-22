@@ -1,55 +1,55 @@
-/*global Bro:false, describe:false, it:false, expect:false, beforeEach:false */
+/*global Go:false, describe:false, it:false, expect:false, beforeEach:false */
 
-var Bro = require('./brototype').Bro;
+var Go = require('./gototype').Go;
 var assert = require('assert');
 
-describe('Bro.doYouEven', function() {
+describe('Go.ifDefined', function() {
     it('should be defined', function() {
         var a = {},
-            bro = Bro(a);
-        assert.notEqual(bro.doYouEven, undefined);
+            go = Go(a);
+        assert.notEqual(go.ifDefined, undefined);
     });
 
     it('should return true for defined properties', function() {
         var a = {foo: 'bar'},
-            bro = Bro(a);
-        assert.equal(bro.doYouEven('foo'), true);
+            go = Go(a);
+        assert.equal(go.ifDefined('foo'), true);
     });
 
     it('should return true for nested properties', function() {
         var a = {foo: {bar: 'baz'}},
-            bro = Bro(a);
-        assert.equal(bro.doYouEven('foo.bar'), true);
+            go = Go(a);
+        assert.equal(go.ifDefined('foo.bar'), true);
     });
 
     it('should return false for undefined properties', function() {
         var a = {foo: 'bar'},
-            bro = Bro(a);
-        assert.equal(bro.doYouEven('bar'), false);
+            go = Go(a);
+        assert.equal(go.ifDefined('bar'), false);
     });
 });
 
-describe('Bro.iCanHaz', function() {
+describe('Go.get', function() {
     it('should return the value of the deep property', function() {
         var a = {b: {c: {d: 32}}},
-            bro = Bro(a);
-        assert.equal(bro.iCanHaz('b.c.d'), 32);
+            go = Go(a);
+        assert.equal(go.get('b.c.d'), 32);
     });
 
     it('should return undefined for missing property', function() {
         var a = {b: 32},
-            bro = Bro(a);
-        assert.equal(bro.iCanHaz('b.c.d'), undefined);
+            go = Go(a);
+        assert.equal(go.get('b.c.d'), undefined);
     });
 });
 
-describe('Bro.allTheThings', function() {
+describe('Go.getKeys', function() {
     it('should return an object\'s keys', function() {
         var a = {
                 "foo": 1,
                 "bar": 2
             },
-            keys = Bro(a).allTheThings();
+            keys = Go(a).getKeys();
         assert.equal(keys.length, 2);
         assert.notEqual(keys.indexOf('foo'), -1);
         assert.notEqual(keys.indexOf('bar'), -1);
@@ -57,13 +57,13 @@ describe('Bro.allTheThings', function() {
 
     it('should return the keys in order', function () {
         var a = { 'z': 1, 'y': 2, 'x': 3 },
-            keys = Bro(a).allTheThings();
+            keys = Go(a).getKeys();
         assert.equal(keys[0], 'x');
         assert.equal(keys[keys.length - 1], 'z');
     });
 });
 
-describe('Bro.iDontAlways', function() {
+describe('Go.if', function() {
     var fired,
         success,
         param,
@@ -89,33 +89,33 @@ describe('Bro.iDontAlways', function() {
     });
 
     it('should check that the requested method is a function', function() {
-        var bro = Bro(obj);
-        bro.iDontAlways('bar').butWhenIdo(fn);
+        var go = Go(obj);
+        go.if('bar').then(fn);
         assert.equal(success, false);
-        bro.iDontAlways('foo').butWhenIdo(fn);
+        go.if('foo').then(fn);
         assert.equal(success, true);
     });
 
     it('should run the requested method if a function', function() {
-        var bro = Bro(obj);
-        bro.iDontAlways('foo').butWhenIdo(fn);
+        var go = Go(obj);
+        go.if('foo').then(fn);
         assert.equal(fired, true);
     });
 
     it('should pass the method\'s return value as param to callback', function() {
-        var bro = Bro(obj);
-        bro.iDontAlways('foo').butWhenIdo(fn);
+        var go = Go(obj);
+        go.if('foo').then(fn);
         assert.equal(param, 91);
     });
 
     it('should apply the object as its own context', function() {
-        var bro = Bro(obj);
-        bro.iDontAlways('foo').butWhenIdo(fn);
+        var go = Go(obj);
+        go.if('foo').then(fn);
         assert.equal(context, obj);
     });
 });
 
-describe('Bro.braceYourself', function() {
+describe('Go.try', function() {
     var success,
         error,
         obj = {
@@ -134,14 +134,14 @@ describe('Bro.braceYourself', function() {
     });
 
     it('should fire the callback when an exception is thrown', function() {
-        var bro = Bro(obj);
-        bro.braceYourself('foo').hereComeTheErrors(fn);
+        var go = Go(obj);
+        go.try('foo').catch(fn);
         assert.equal(success, true);
     });
 
     it('should pass the error to the callback', function() {
-        var bro = Bro(obj);
-        bro.braceYourself('foo').hereComeTheErrors(fn);
+        var go = Go(obj);
+        go.try('foo').catch(fn);
         assert.equal(error, 'an error');
     });
 });
